@@ -1,5 +1,9 @@
 {
+  "scripts": {
+    "start": "PORT=10001 http-server > /dev/null 2>&1 &"
+  },
   "dependencies": {
-    "sha256": "^0.1.1"
+    "sha256": "^0.1.1",
+    "http-server": "~0.7.5"
   }
 }

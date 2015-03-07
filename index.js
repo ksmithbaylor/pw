@@ -1,15 +1,15 @@
 'use strict';
 
-const UPPERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-const LOWERS = 'abcdefghijklmnopqrstuvwxyz';
-const DIGITS = '0123456789';
-const PUNCTS = '-/()$&@?!';
-const ESCAPED_PUNCTS = '-/()\$&@\?!';
-const CHARACTERS = UPPERS + LOWERS + DIGITS + PUNCTS;
+var UPPERS         = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+var LOWERS         = 'abcdefghijklmnopqrstuvwxyz';
+var DIGITS         = '0123456789';
+var PUNCTS         = '-/()$&@?!';
+var ESCAPED_PUNCTS = '-/()\$&@\?!';
+var CHARACTERS     = UPPERS + LOWERS + DIGITS + PUNCTS;
 
 var display = document.getElementById('display');
-var master = document.getElementById('master');
-var site = document.getElementById('site');
+var master  = document.getElementById('master');
+var site    = document.getElementById('site');
 
 var characterClass = function (str) {
   return new RegExp('[' + str + ']');
@@ -48,6 +48,3 @@ var handleChange = function handleChange() {
 
   display.innerHTML = password;
 };
-
-master.addEventListener('change', handleChange);
-site.addEventListener('change', handleChange);
