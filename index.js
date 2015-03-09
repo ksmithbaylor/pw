@@ -39,7 +39,10 @@ var handleChange = function handleChange() {
   var master_val = master.value, site_val = site.value;
   var password, hash = master_val + site_val;
 
-  if (master_val === '' || site_val === '') return;
+  if (master_val === '' || site_val === '') {
+    display.innerHTML = '';
+    return;
+  }
 
   do {
     hash = sha256(hash, {asBytes: true});
