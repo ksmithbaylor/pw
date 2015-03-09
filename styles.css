@@ -10,7 +10,7 @@ body {
     max-width: 400px;
 }
 p {
-    font-family: "Menlo";
+    font-family: "Menlo", "Lucida Console", "Monaco", "Courier", monospace;
     font-size: 2em;
     height: 2em;
     width: 96%;
