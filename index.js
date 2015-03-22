@@ -1,5 +1,7 @@
 'use strict';
 
+var scrypt = require('scryptsy');
+
 var UPPERS         = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 var LOWERS         = 'abcdefghijklmnopqrstuvwxyz';
 var DIGITS         = '0123456789';
@@ -7,47 +9,76 @@ var PUNCTS         = '-/()$&@?!';
 var ESCAPED_PUNCTS = '-/()\$&@\?!';
 var CHARACTERS     = UPPERS + LOWERS + DIGITS + PUNCTS;
 
+var SECURE_ITERATIONS = 8192;
+var PASSWORD_LENGTH = 12;
+
 var display = document.getElementById('display');
 var master  = document.getElementById('master');
 var site    = document.getElementById('site');
 
-var characterClass = function (str) {
-  return new RegExp('[' + str + ']');
-}
-
-var notAllTypes = function (str) {
-  return !(characterClass(UPPERS).test(str) &&
-           characterClass(LOWERS).test(str) &&
-           characterClass(DIGITS).test(str) &&
-           characterClass(ESCAPED_PUNCTS).test(str));
-}
-
-var getPassword = function (hash, master_val, site_val) {
-  var i = 0;
-  var encodedSha = sha256(hash, {asBytes: true}).map(function (x) {
-    return CHARACTERS[(x + i++) % CHARACTERS.length];
-  });
-
-  var shuffled = sha256(site_val, {asBytes: true}).map(function (x) {
-    return encodedSha[(x + i++) % encodedSha.length];
-  });
-
-  return shuffled.join('').slice(0, 10);
-}
-
-var handleChange = function handleChange() {
-  var master_val = master.value, site_val = site.value;
-  var password, hash = master_val + site_val;
-
-  if (master_val === '' || site_val === '') {
+// Called whenever either input is changed
+window.handleChange = function() {
+  if (master.value === '' || site.value === '') {
     display.innerHTML = '';
-    return;
+  } else {
+    display.innerHTML = generatePassword(master.value, site.value);
   }
+}
 
+// Generates a password from a master password and site name
+function generatePassword(master, site) {
+  var encrypted = securelyEncrypt(site, master);
+
+  // Loop one iteration at a time until the resulting password
+  // has at least one of each character type
   do {
-    hash = sha256(hash, {asBytes: true});
-    password = getPassword(hash, master_val, site_val);
-  } while (notAllTypes(password))
+    encrypted = quicklyEncrypt(encrypted, site);
+    var password = convertToChars(encrypted);
+  } while (notAllTypes(password));
 
-  display.innerHTML = password;
-};
+  return password;
+}
+
+// Runs a secure number of iterations of scrypt and returns
+// a 64-byte buffer
+function securelyEncrypt(key, salt) {
+  return scrypt(key, salt, SECURE_ITERATIONS, 8, 1, 64);
+}
+
+// Runs a single iteration of scrypt with low memory usage and
+// returns a buffer of length `PASSWORD_LENGTH`
+function quicklyEncrypt(key, salt) {
+  return scrypt(key, salt, 1, 1, 1, PASSWORD_LENGTH);
+}
+
+// Converts a buffer into a string based on a set of characters
+function convertToChars(buf) {
+  return bufferToArray(buf).map(function (x) {
+    return CHARACTERS[x % CHARACTERS.length];
+  }).join('');
+}
+
+// Converts a Buffer or Typed Array to a normal array
+function bufferToArray(buf) {
+  return Array.prototype.slice.call(buf, 0);
+}
+
+// Determines whether or not a string is missing one or more
+// character classes
+function notAllTypes(str) {
+  return ![UPPERS, LOWERS, DIGITS, ESCAPED_PUNCTS].map(function (charset) {
+    return hasAtLeastOne(charset, str);
+  }).every(identity);
+}
+
+// Tests a string for a set of characters
+function hasAtLeastOne(charset, str) {
+  return new RegExp('[' + charset + ']').test(str);
+}
+
+// Simple identity function, for use with Array.prototype.every()
+function identity(x) {
+  return x;
+}
+
+console.log(generatePassword('hello', 'world'));

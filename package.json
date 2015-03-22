@@ -1,9 +1,11 @@
 {
   "scripts": {
-    "start": "PORT=10001 http-server > /dev/null 2>&1 &"
+    "start": "PORT=10001 http-server > /dev/null 2>&1 &",
+    "build": "browserify index.js --outfile bundle.js"
   },
   "dependencies": {
-    "sha256": "^0.1.1",
-    "http-server": "~0.7.5"
+    "http-server": "~0.7.5",
+    "scryptsy": "^1.2.0",
+    "browserify": "^9.0.3"
   }
 }
