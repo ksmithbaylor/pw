@@ -10,7 +10,7 @@ var ESCAPED_PUNCTS = '-/()\$&@\?!';
 var CHARACTERS     = UPPERS + LOWERS + DIGITS + PUNCTS;
 
 var SECURE_ITERATIONS = 8192;
-var PASSWORD_LENGTH = 12;
+var PASSWORD_LENGTH = 10;
 
 var display = document.getElementById('display');
 var master  = document.getElementById('master');
@@ -31,11 +31,14 @@ function generatePassword(master, site) {
 
   // Loop one iteration at a time until the resulting password
   // has at least one of each character type
+  var cycles = 0;
   do {
     encrypted = quicklyEncrypt(encrypted, site);
     var password = convertToChars(encrypted);
+    cycles++;
   } while (notAllTypes(password));
 
+  console.log('generated in ' + cycles + ' cycles');
   return password;
 }
 
@@ -80,5 +83,3 @@ function hasAtLeastOne(charset, str) {
 function identity(x) {
   return x;
 }
-
-console.log(generatePassword('hello', 'world'));
