@@ -2,6 +2,8 @@
 
 Secure deterministic password generator running at [http://pw.kevinjs.com](http://pw.kevinjs.com)
 
+The main code is found in `index.js`.
+
 ### The Problem:
 
 You have lots of accounts online, and they all require a password.
