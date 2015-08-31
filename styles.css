@@ -24,7 +24,10 @@ input {
     font-size: 1.7em;
     border-radius: 1px;
     border: none;
+    width: inherit;
     background-color: #DDDDDD;
-    width: 96%;
     margin: 0% 0% 3% 3%;
+}
+input[type="checkbox"] {
+    width: initial;
 }
