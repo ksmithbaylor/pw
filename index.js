@@ -22,8 +22,14 @@ window.handleChange = function() {
     display.innerHTML = '';
   } else {
     display.innerHTML = generatePassword(master.value, site.value);
+    master.blur(); site.blur();
+    selectText(display);
   }
 }
+
+window.onload = function () {
+  master.focus();
+};
 
 // Generates a password from a master password and site name
 function generatePassword(master, site) {
@@ -82,4 +88,22 @@ function notAllTypes(str) {
 // Tests a string for a set of characters
 function hasAtLeastOne(charset, str) {
   return new RegExp('[' + charset + ']').test(str);
+}
+
+// Select all text in an element
+// http://stackoverflow.com/questions/985272/selecting-text-in-an-element-akin-to-highlighting-with-your-mouse
+function selectText(element) {
+  var range, selection;
+
+  if (document.body.createTextRange) {
+    range = document.body.createTextRange();
+    range.moveToElementText(element);
+    range.select();
+  } else if (window.getSelection) {
+    selection = window.getSelection();
+    range = document.createRange();
+    range.selectNodeContents(element);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
 }
