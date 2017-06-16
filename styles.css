@@ -1,33 +1,48 @@
-html {
-    width: 90%;
-    margin: 0 0 0 0;
+html, body {
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+  overflow: hidden;
+  width: 375px;
+  min-width: 375px;
+  max-width: 375px;
 }
-body {
-    margin: 0px 0px 0px 0px;
-    padding: 0% 0% 0% 0%;
-    overflow: hidden;
-    width: 100%;
-    max-width: 400px;
+span, #copy-button, label {
+  font-family: "Menlo", "Lucida Console", "Monaco", "Courier", monospace;
 }
-p {
-    font-family: "Menlo", "Lucida Console", "Monaco", "Courier", monospace;
-    font-size: 2em;
+span {
+  text-align: left;
+  font-size: 2em;
+  height: 2em;
+  line-height: 2em;
+  margin: 0px;
+  padding-left: 10px;
+  padding-right: 0px;
+}
+#copy-button {
+  margin-top: 1.2em;
+  margin-right: 10px;
+  font-size: 1em;
+  line-height: 1em;
+  float: right;
+}
+@media screen and (min-width: 567px) {
+  #copy-button {
+    margin-top: 1em;
+    margin-right: 35px;
+    font-size: 1em;
+    line-height: 1em;
     height: 2em;
-    width: 96%;
-    line-height: 2em;
-    text-align: left;
-    margin: 0%;
-    padding-left: 5%;
-    padding-right: 0%;
+  }
 }
 input {
-    font-size: 1.7em;
-    border-radius: 1px;
-    border: none;
-    width: inherit;
-    background-color: #DDDDDD;
-    margin: 0% 0% 3% 3%;
+  font-size: 1.7em;
+  border-radius: 1px;
+  border: none;
+  width: calc(100% - 47px);
+  background-color: #DDDDDD;
+  margin-left: 10px;
+  margin-bottom: 10px;
 }
 input[type="checkbox"] {
-    width: initial;
+  width: initial;
 }

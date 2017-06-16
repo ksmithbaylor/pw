@@ -1,6 +1,7 @@
 'use strict';
 
 var scrypt = require('scryptsy');
+var Clipboard = require('clipboard');
 
 var UPPERS         = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 var LOWERS         = 'abcdefghijklmnopqrstuvwxyz';
@@ -16,20 +17,28 @@ var master  = document.getElementById('master');
 var site    = document.getElementById('site');
 var symbols = document.getElementById('symbols-toggle');
 
+var clipboard = new Clipboard('#copy-button');
+master.focus();
+
+// Select text when focusing the display
+display.addEventListener('focus', function () { selectText(display); });
+
+// Handle changes to the fields
+master.addEventListener('change', handleChange);
+site.addEventListener('change', handleChange);
+symbols.addEventListener('change', handleChange);
+
 // Called whenever either input is changed
-window.handleChange = function() {
+function handleChange() {
   if (master.value === '' || site.value === '') {
     display.innerHTML = '';
   } else {
     display.innerHTML = generatePassword(master.value, site.value);
-    master.blur(); site.blur();
+    master.blur();
+    site.blur();
     selectText(display);
   }
 }
-
-window.onload = function () {
-  master.focus();
-};
 
 // Generates a password from a master password and site name
 function generatePassword(master, site) {

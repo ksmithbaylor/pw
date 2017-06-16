@@ -1,9 +1,14 @@
 {
+  "name": "pw",
+  "version": "0.9.0",
   "scripts": {
-    "build": "browserify index.js --outfile bundle.js"
+    "build": "browserify -t uglifyify index.js | uglifyjs -c > bundle.js"
   },
   "dependencies": {
-    "scryptsy": "^1.2.0",
-    "browserify": "^9.0.3"
+    "browserify": "^14.4.0",
+    "clipboard": "^1.7.1",
+    "scryptsy": "^2.0.0",
+    "uglify-js": "^3.0.17",
+    "uglifyify": "^4.0.1"
   }
 }

@@ -9,11 +9,12 @@
         <link rel="stylesheet" href="styles.css"></link>
     </head>
     <body>
-        <p id="display"></p>
-        <input type="password" placeholder=" master password" id="master" onchange="handleChange()"></input>
-        <input type="password" placeholder=" site name" id="site" onchange="handleChange()"></input>
+        <span id="display"></span>
+        <button id="copy-button" data-clipboard-target="#display" tabindex="-1">Copy</button>
+        <input type="password" placeholder=" master password" id="master"></input>
+        <input type="password" placeholder=" site name" id="site"></input>
         <br />
-        <input type="checkbox" id="symbols-toggle" checked="true" onchange="handleChange()"></input>
+        <input type="checkbox" id="symbols-toggle" checked="true"></input>
         <label for="symbols-toggle"> Allow symbols?</label>
         <script src="bundle.js"></script>
     </body>
